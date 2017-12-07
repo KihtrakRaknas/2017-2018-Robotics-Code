@@ -1,13 +1,12 @@
 #include "main.h"
 #include "global.h"
 
-#define versionnumber "2.5"
+#define versionnumber "2.1.6"
 /*
 NOTES:
 implement constants and methods
 */
 #define thresh 10
-#define circumferenceOfTheWheel 10
 
 void driving(); //The function will read the left joystick's coordinates and will set the motor's speeds to match
 void stopDriving();
@@ -21,7 +20,6 @@ void right(); //A set of pre configured motor speeds to drive right
 void left(); //A set of pre configured motor speeds to drive left
 void auton(); //The code we plan to use for our auton
 void randomnessCheck();
-void autodrive(int distance);
 
 int xpos = 0;
 int ypos = 0;
@@ -467,7 +465,4 @@ void randomnessCheck(){
           }
       }
   }*/
-
-
-
 }
