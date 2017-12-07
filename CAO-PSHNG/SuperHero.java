@@ -10,6 +10,9 @@ public class SuperHero extends Person{
 		this.powerLevel = powerLevel;
 		this.heroName = heroName;
 	}
+	public String getHeroName(){
+		return heroName;
+	}
 	public String getSuperPower(){
 		return superPower;
 	}

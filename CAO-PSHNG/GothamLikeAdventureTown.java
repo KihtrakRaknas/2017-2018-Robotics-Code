@@ -86,6 +86,19 @@ public class GothamLikeAdventureTown{
 		for(int i = 0; i!=dailyPlanetStreet.size();i++){
 			System.out.println(dailyPlanetStreet.get(i));
 		}
+
+
+		int indexOfGoodGuy = -1;
+		do{
+			indexOfGoodGuy++;
+		}while(!(alive.get(indexOfGoodGuy) instanceof GoodGuy));
+		int indexOfBadGuy = -1;
+		do{
+			indexOfBadGuy++;
+		}while(!(alive.get(indexOfBadGuy) instanceof BadGuy));
+		System.out.println(alive.get(indexOfGoodGuy).getName()+" encouters "+alive.get(indexOfBadGuy).getName());
+
+
 	}
 	public static void main(String[]args){
 		GothamLikeAdventureTown app = new GothamLikeAdventureTown();
