@@ -43,14 +43,14 @@ public class GothamLikeAdventureTown{
 				boolean someoneDied =true;
 				if(alive.get(i) instanceof BadGuy){
 					if(i!=0&&alive.get(i-1) instanceof NormalGuy){
-						if(i!=alive.size()-2 && alive.get(i+1) instanceof NormalGuy)
+						if(i<alive.size()-1 && alive.get(i+1) instanceof NormalGuy)
 							if((Math.random()*2) == 0)
 								dead.add(alive.remove(i-1));
 							else
 								dead.add(alive.remove(i+1));
 						else
 							dead.add(alive.remove(i-1));
-					}else if(i!=alive.size()-2 && alive.get(i+1) instanceof NormalGuy){
+					}else if(i<alive.size()-1 && alive.get(i+1) instanceof NormalGuy){
 						dead.add(alive.remove(i+1));
 					}else{
 						someoneDied = false;
@@ -60,25 +60,25 @@ public class GothamLikeAdventureTown{
 						for(int x = alive.size()-1; x!=0;x--)
 							if(alive.get(x) instanceof BadGuy)
 								indexOfBadGuy = x;
-						System.out.println(dead.get(dead.size()-1)+" Died...");
-						System.out.println(alive.get(indexOfBadGuy)+" says: "+((BadGuy)alive.get(indexOfBadGuy)).getEvilLaugh());
+						System.out.println(dead.get(dead.size()-1).getName()+" Died...");
+						System.out.println(alive.get(indexOfBadGuy).getName()+" says: "+((BadGuy)alive.get(indexOfBadGuy)).getEvilLaugh());
 					}
 				}
 			}
-			if(alive.size()<3)
-				break;
-			int savedPersonIndex;
-			do{
-				savedPersonIndex = (int)(Math.random()*alive.size());
-			}while(!(alive.get(savedPersonIndex) instanceof NormalGuy));
-			safe.add(alive.remove(savedPersonIndex));
-			int couter = 0;
-			do{
-				couter++;
-			}while(!(alive.get(couter) instanceof GoodGuy));
-			System.out.println(safe.get(safe.size()-1)+" has been saved!");
-			System.out.println(alive.get(couter)+" says: "+((GoodGuy)alive.get(couter)).getCatchPhrase());
-			alive.add((int)(Math.random() * alive.size()), alive.remove(couter) );
+			if(alive.size()>2){
+				int savedPersonIndex;
+				do{
+					savedPersonIndex = (int)(Math.random()*alive.size());
+				}while(!(alive.get(savedPersonIndex) instanceof NormalGuy));
+				safe.add(alive.remove(savedPersonIndex));
+				int couter = -1;
+				do{
+					couter++;
+				}while(!(alive.get(couter) instanceof GoodGuy));
+				System.out.println(safe.get(safe.size()-1).getName()+" has been saved!");
+				System.out.println(alive.get(couter).getName()+" says: "+((GoodGuy)alive.get(couter)).getCatchPhrase());
+				alive.add((int)(Math.random() * alive.size()), alive.remove(couter) );
+			}
 		}
 		for(int i = 0; i!=50;i++){
 			System.out.println();
