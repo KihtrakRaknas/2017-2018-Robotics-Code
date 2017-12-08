@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.awt.Robot;
+import java.awt.AWTException;
 public class GothamLikeAdventureTown{
-	public GothamLikeAdventureTown(){
+	public GothamLikeAdventureTown() throws AWTException{
+		Robot robot = new Robot();
 		String firstName[] = {"Vishal","Shahil","Kunal", "Sudarshan","Vikrant", "Ayush", "George","Kush", "Ayush (The other one)", "NA"};
 		String lastName[] = {"Agarwal","Patel", "Amladi", "Seshadri","Singh", "Miller", "Anand", "Smith", "Ehrmantraut","NA"};
 		String jobs[] = {"Unemployed/Canadian", "Memer", "YouTuber", "IT guy", "\"That\" guy", "Professional BTD5 player", "The guy who types the google autocompletes", "Ayush", "AP comp sci teacher", "Actor"};
@@ -26,12 +29,30 @@ public class GothamLikeAdventureTown{
 				dailyPlanetStreet.add(new NormalGuy( firstName[(int)(Math.random()*10)] +" "+ lastName[(int)(Math.random()*10)] , jobs[(int)(Math.random()*10)]));
 			}
 		}
+		System.out.print("SCANNING FOR PEOPLE IN \"GothamLikeAdventureTown\"");
+		robot.delay(1000);
+		for(int i = 0; i!=3;i++){
+			System.out.print(".");
+			robot.delay(500);
+		}
+		System.out.print("\n");
 		for(int i = 0; i!=dailyPlanetStreet.size();i++){
 			System.out.println(dailyPlanetStreet.get(i));
+			robot.delay(50);
 		}
+		robot.delay(5000);
+
 		for(int i = 0; i!=50;i++){
 			System.out.println();
 		}
+
+		System.out.print("MOTION DETECTED\nTRIANGULATING ACTIVITY");
+		robot.delay(1000);
+		for(int i = 0; i!=3;i++){
+			System.out.print(".");
+			robot.delay(500);
+		}
+		System.out.print("\n");
 		ArrayList<Person> safetyLand = new ArrayList<Person>();
 		ArrayList<Person> unfortunaelyFatallyWounded= new ArrayList<Person>();
 
@@ -39,12 +60,14 @@ public class GothamLikeAdventureTown{
 		ArrayList<Person> dead = safetyLand;
 		ArrayList<Person> safe = unfortunaelyFatallyWounded;
 		while(alive.size()>2){
+			boolean BadGuyAttacked = false;
 			for(int i = alive.size()-1; i!=0;i--){
 				boolean someoneDied =true;
-				if(alive.get(i) instanceof BadGuy){
+				if(alive.get(i) instanceof BadGuy&&!BadGuyAttacked){
+					BadGuyAttacked = true;
 					if(i!=0&&alive.get(i-1) instanceof NormalGuy){
 						if(i<alive.size()-1 && alive.get(i+1) instanceof NormalGuy)
-							if((Math.random()*2) == 0)
+							if((int)(Math.random()*2) == 0)
 								dead.add(alive.remove(i-1));
 							else
 								dead.add(alive.remove(i+1));
@@ -61,7 +84,9 @@ public class GothamLikeAdventureTown{
 							if(alive.get(x) instanceof BadGuy)
 								indexOfBadGuy = x;
 						System.out.println(dead.get(dead.size()-1).getName()+" Died...");
-						System.out.println(alive.get(indexOfBadGuy).getName()+" says: "+((BadGuy)alive.get(indexOfBadGuy)).getEvilLaugh());
+						robot.delay(500);
+						System.out.println(alive.get(indexOfBadGuy).getName()+" says: "+((BadGuy)alive.get(indexOfBadGuy)).getEvilLaugh()+"\n");
+						robot.delay(500);
 					}
 				}
 			}
@@ -76,15 +101,14 @@ public class GothamLikeAdventureTown{
 					couter++;
 				}while(!(alive.get(couter) instanceof GoodGuy));
 				System.out.println(safe.get(safe.size()-1).getName()+" has been saved!");
-				System.out.println(alive.get(couter).getName()+" says: "+((GoodGuy)alive.get(couter)).getCatchPhrase());
+				robot.delay(500);
+				System.out.println(alive.get(couter).getName()+" says: "+((GoodGuy)alive.get(couter)).getCatchPhrase()+"\n");
 				alive.add((int)(Math.random() * alive.size()), alive.remove(couter) );
+				robot.delay(500);
 			}
 		}
 		for(int i = 0; i!=50;i++){
 			System.out.println();
-		}
-		for(int i = 0; i!=dailyPlanetStreet.size();i++){
-			System.out.println(dailyPlanetStreet.get(i));
 		}
 
 
@@ -97,10 +121,39 @@ public class GothamLikeAdventureTown{
 			indexOfBadGuy++;
 		}while(!(alive.get(indexOfBadGuy) instanceof BadGuy));
 		System.out.println(alive.get(indexOfGoodGuy).getName()+" encouters "+alive.get(indexOfBadGuy).getName());
-
-
+			int hero1Index;
+			int hero2Index;
+		if((int)(Math.random()*2) == 0){
+			hero1Index = indexOfGoodGuy;
+			hero2Index = indexOfBadGuy;
+		}else{
+			hero1Index = indexOfBadGuy;
+			hero2Index = indexOfGoodGuy;
+		}
+			System.out.println(alive.get(hero1Index).getName()+ " attacks first!");
+		do{
+			int damage = (int)(Math.random()*alive.get(hero1Index).getMaxDamage()+1);
+			System.out.println(alive.get(hero1Index).getName()+" attacks with "+damage+" damage");
+			int defence = (int)(Math.random()*alive.get(hero2Index).getDefenseAbilty()+1);
+			System.out.println(alive.get(hero2Index).getName()+ " defends with "+ defence);
+			if(defence>=damage){
+				System.out.println(alive.get(hero2Index).getName()+ " successfully blocked " +alive.get(hero2Index).getName()+"'s attack!");
+			}else{
+				damage = (int)(Math.random()*alive.get(hero1Index).getMaxDamage()+1);
+				alive.get(hero2Index).hpReduction(damage);
+				System.out.println(alive.get(hero2Index).getName()+ "'s defence wasn't enough and " +alive.get(hero1Index).getName()+"'s attack does " +damage+ " damage!\n"+alive.get(hero2Index).getName()+"'s HP is now "+alive.get(hero2Index).getHitPoint());
+			}
+			System.out.println();
+			int temp = hero1Index;
+			hero1Index = hero2Index;
+			hero2Index = temp;
+		}while(alive.get(hero2Index).getHitPoint()>0&&alive.get(hero1Index).getHitPoint()>0);
+		if(alive.get(hero2Index).getHitPoint()<=0)
+			System.out.println(alive.get(hero2Index).getName()+" has died and "+alive.get(hero1Index).getName()+" WINS!");
+		else
+			System.out.println(alive.get(hero1Index).getName()+" has died and "+alive.get(hero2Index).getName()+" WINS!");
 	}
-	public static void main(String[]args){
+	public static void main(String[]args) throws AWTException{
 		GothamLikeAdventureTown app = new GothamLikeAdventureTown();
 	}
 }
