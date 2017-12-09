@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.awt.Robot;
 import java.awt.AWTException;
 public class GothamLikeAdventureTown{
-	public GothamLikeAdventureTown() throws AWTException{
+	public GothamLikeAdventureTown() throws AWTException {
 		Robot robot = new Robot();
 		String firstName[] = {"Vishal","Shahil","Kunal", "Sudarshan","Vikrant", "Ayush", "George","Kush", "Ayush (The other one)", "NA"};
 		String lastName[] = {"Agarwal","Patel", "Amladi", "Seshadri","Singh", "Miller", "Anand", "Smith", "Ehrmantraut","NA"};
@@ -46,13 +46,16 @@ public class GothamLikeAdventureTown{
 			System.out.println();
 		}
 
-		System.out.print("MOTION DETECTED\nTRIANGULATING ACTIVITY");
+		System.out.print("MOTION DETECTED\n");
+		robot.delay(1000);
+		System.out.print("TRIANGULATING ACTIVITY");
 		robot.delay(1000);
 		for(int i = 0; i!=3;i++){
 			System.out.print(".");
 			robot.delay(500);
 		}
-		System.out.print("\n");
+		System.out.print("\n\n\nREPORTING DETECTED ACTIONS\n\n\n");
+		robot.delay(1000);
 		ArrayList<Person> safetyLand = new ArrayList<Person>();
 		ArrayList<Person> unfortunaelyFatallyWounded= new ArrayList<Person>();
 
@@ -84,7 +87,7 @@ public class GothamLikeAdventureTown{
 							if(alive.get(x) instanceof BadGuy)
 								indexOfBadGuy = x;
 						System.out.println(dead.get(dead.size()-1).getName()+" Died...");
-						robot.delay(500);
+						robot.delay(50);
 						System.out.println(alive.get(indexOfBadGuy).getName()+" says: "+((BadGuy)alive.get(indexOfBadGuy)).getEvilLaugh()+"\n");
 						robot.delay(500);
 					}
@@ -101,7 +104,7 @@ public class GothamLikeAdventureTown{
 					couter++;
 				}while(!(alive.get(couter) instanceof GoodGuy));
 				System.out.println(safe.get(safe.size()-1).getName()+" has been saved!");
-				robot.delay(500);
+				robot.delay(50);
 				System.out.println(alive.get(couter).getName()+" says: "+((GoodGuy)alive.get(couter)).getCatchPhrase()+"\n");
 				alive.add((int)(Math.random() * alive.size()), alive.remove(couter) );
 				robot.delay(500);
@@ -121,6 +124,7 @@ public class GothamLikeAdventureTown{
 			indexOfBadGuy++;
 		}while(!(alive.get(indexOfBadGuy) instanceof BadGuy));
 		System.out.println(alive.get(indexOfGoodGuy).getName()+" encouters "+alive.get(indexOfBadGuy).getName());
+		robot.delay(1000);
 			int hero1Index;
 			int hero2Index;
 		if((int)(Math.random()*2) == 0){
@@ -130,24 +134,29 @@ public class GothamLikeAdventureTown{
 			hero1Index = indexOfBadGuy;
 			hero2Index = indexOfGoodGuy;
 		}
-			System.out.println(alive.get(hero1Index).getName()+ " attacks first!");
+			System.out.println(alive.get(hero1Index).getName()+ " attacks first!\n");
+			robot.delay(1000);
 		do{
 			int damage = (int)(Math.random()*alive.get(hero1Index).getMaxDamage()+1);
 			System.out.println(alive.get(hero1Index).getName()+" attacks with "+damage+" damage");
+			robot.delay(500);
 			int defence = (int)(Math.random()*alive.get(hero2Index).getDefenseAbilty()+1);
 			System.out.println(alive.get(hero2Index).getName()+ " defends with "+ defence);
+			robot.delay(50);
 			if(defence>=damage){
-				System.out.println(alive.get(hero2Index).getName()+ " successfully blocked " +alive.get(hero2Index).getName()+"'s attack!");
+				System.out.println(alive.get(hero2Index).getName()+ " successfully blocked " +alive.get(hero1Index).getName()+"'s attack!");
 			}else{
 				damage = (int)(Math.random()*alive.get(hero1Index).getMaxDamage()+1);
 				alive.get(hero2Index).hpReduction(damage);
 				System.out.println(alive.get(hero2Index).getName()+ "'s defence wasn't enough and " +alive.get(hero1Index).getName()+"'s attack does " +damage+ " damage!\n"+alive.get(hero2Index).getName()+"'s HP is now "+alive.get(hero2Index).getHitPoint());
 			}
+			robot.delay(1000);
 			System.out.println();
 			int temp = hero1Index;
 			hero1Index = hero2Index;
 			hero2Index = temp;
 		}while(alive.get(hero2Index).getHitPoint()>0&&alive.get(hero1Index).getHitPoint()>0);
+		robot.delay(5000);
 		if(alive.get(hero2Index).getHitPoint()<=0)
 			System.out.println(alive.get(hero2Index).getName()+" has died and "+alive.get(hero1Index).getName()+" WINS!");
 		else
