@@ -32,7 +32,7 @@ int drivingMode = 0;
 
 void operatorControl() {
   //Type pros terminal
-  printf("Version #: %s\n\nTank_Drive_Code\n\n\n",versionnumber);
+  printf("Version #: %s\n\nTank_Drive_Code_2017_18_Comp\n\n\n",versionnumber);
   while (1) {
     if(drivingMode == 0||drivingMode == 2){
       driving();
