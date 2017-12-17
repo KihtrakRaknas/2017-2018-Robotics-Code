@@ -1,6 +1,6 @@
 #include "main.h"
 #include "global.h"
-
+#include "math.h"
 #define versionnumber "2.1.6"
 /*
 NOTES:
@@ -8,6 +8,8 @@ implement constants and methods
 */
 #define thresh 10
 
+void refershCords();
+double getHeading();
 void driving(); //The function will read the left joystick's coordinates and will set the motor's speeds to match
 void stopDriving();
 void armspeed(int); //Takes in the speed the arm needs to move at and moves both motors at that speed
@@ -37,7 +39,10 @@ void operatorControl() {
   //Type pros terminal
   printf("Version #: %s\n\nTank_Drive_Code\n\n\n",versionnumber);
   while (1) {
-    XCORD+=0;
+
+    refershCords();
+
+
     if(drivingMode == 0||drivingMode == 2){
       driving();
 
@@ -200,10 +205,28 @@ void operatorControl() {
 //Functions:
 
 //run motors based on the direction of the joystick
-#define radiusOfDrive 2
-double getHeading(){
-  return ( encoderGet(encoderLeft)-encoderGet(encoderRight) )/ radiusOfDrive;
+
+#define HALF_PI (1.570796326794897)
+#define distanceBetweenWheels 2
+void refershCords(){
+  int originalHeading = getHeading()-HALF_PI;
+  int OldEncoderLeft = encoderGet(encoderLeft);
+  int OldEncoderRight = encoderGet(encoderRight);
+  //FOR TURNING
+  if(encoderGet(encoderRight)-encoderGet(encoderLeft)!=0){
+    XCORD += ( sin(getHeading()-HALF_PI)-sin(originalHeading) ) * (  ( (encoderGet(encoderRight)-OldEncoderRight) + (encoderGet(encoderLeft)-OldEncoderLeft) )/2 /(  ( (encoderGet(encoderRight)-OldEncoderRight) - (encoderGet(encoderLeft)-OldEncoderLeft) )/distanceBetweenWheels  )   );
+    YCORD += ( cos(getHeading()-HALF_PI)-cos(originalHeading) ) * (  ( (encoderGet(encoderRight)-OldEncoderRight) + (encoderGet(encoderLeft)-OldEncoderLeft) )/2 /(  ( (encoderGet(encoderRight)-OldEncoderRight) - (encoderGet(encoderLeft)-OldEncoderLeft) )/distanceBetweenWheels  )   );
+  }else{
+    //FOR DRIVING STRAIGHT
+    XCORD += (encoderGet(encoderRight)-OldEncoderRight) * sin(getHeading());
+    YCORD += (encoderGet(encoderRight)-OldEncoderRight) * cos(getHeading());
+  }
 }
+
+double getHeading(){
+  return ( encoderGet(encoderRight)-encoderGet(encoderLeft) )/ distanceBetweenWheels;
+}
+
 
 void driving(){
   //Get the X and Y coordinates from the controller
