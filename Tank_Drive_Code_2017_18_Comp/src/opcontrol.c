@@ -1,7 +1,7 @@
 #include "main.h"
 #include "global.h"
 
-#define versionnumber "2.1.7"
+#define versionnumber "2.1.8"
 /*
 NOTES:
 implement constants and methods
@@ -245,10 +245,10 @@ void stopDriving(){
 
 
 void armspeed(int speed){//+speed = up
-  motorSet(ARMBL, speed);
-  motorSet(ARMTL, speed);
-  motorSet(ARMBR, -1 * speed);
-  motorSet(ARMTR, -1 * speed);
+  motorSet(ARMBL, -1 * speed);
+  motorSet(ARMTL, -1 * speed);
+  motorSet(ARMBR, speed);
+  motorSet(ARMTR, speed);
 }
 
 void clawcontrol(int speed){//+speed=close
