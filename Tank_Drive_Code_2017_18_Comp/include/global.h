@@ -14,6 +14,6 @@
 #define ARMTR 9
 #define ARMBR 4
 #define ARMTL 6
-#define ARMBL 8
+#define ARMBL 5
 
 #endif
