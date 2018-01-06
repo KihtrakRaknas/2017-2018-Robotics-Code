@@ -3,15 +3,17 @@
 FILE *fptr;
 
 bool motorIsDrive(int m){
-	if(m == 10)// || m == 2 || m == 3 || m == 4)
+	if(m == 2 || m == 3)
 		return true;
 	return false;
 }
-int motorsInUse[] = {1,10};
+int motorsInUse[] = {2,3};
 
 Encoder encodeName(int m){
-	//if(m==10)
+	if(m==2)
 		return encodeOne;
+	else
+		return encodeTwo;
 	/*else if(m==2)
 		return encodeTwo;
 	else if(m==3)
@@ -41,16 +43,18 @@ void operatorControl() {
 	int oldmotoronespeed = 0;
 	int oldmotortenspeed = 0;
 	while(!(joystickGetDigital(1, 8, JOY_UP))){
-		int motoronespeed = joystickGetAnalog(1, 3);
-		int motortenspeed = joystickGetAnalog(1, 2);
+		int motoronespeed = joystickGetAnalog(1, 2);
+		int motortenspeed = joystickGetAnalog(1, 3);
 		if((motortenspeed>10+oldmotortenspeed)||(motortenspeed<oldmotortenspeed-10)){
 			//check();
 			motorSet(10,motortenspeed);
+			motorSet(3,motortenspeed);
 			oldmotortenspeed = motortenspeed;
 		}
 		if((motoronespeed>10+oldmotoronespeed)||(motoronespeed<oldmotoronespeed-10)){
 			//check();
-			motorSet(1,motoronespeed);
+			motorSet(1,-1* motoronespeed);
+			motorSet(2,-1*motoronespeed);
 			oldmotoronespeed = motoronespeed;
 		}
 		if(joystickGetDigital(1, 8, JOY_DOWN)){

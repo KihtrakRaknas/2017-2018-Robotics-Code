@@ -38,4 +38,5 @@ void initializeIO() {
  */
 void initialize() {
   encodeOne = encoderInit(1, 2, false);
+  encodeTwo = encoderInit(3, 4, false);
 }
