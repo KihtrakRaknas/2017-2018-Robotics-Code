@@ -41,9 +41,13 @@ int potPort(int Motorport){
 
 //first num is motor second is sensor val
 // if motor is 0 then event is over (no need to type a value)
-int playBack[] = {1,3467,10,0,0,10,-612,0,10,402,0,10,-334,0,10,415,0,1,3478,10,-720,0,10,-309,0,10,-738,0,10,-652,0,1,3493,10,113,0,10,674,0};//drive in a square
+int playBack[] = {2,0,3,0,0,2,-1278,3,1276,0,2,-1600,3,867,0,2,-2588,3,1843,0,2,-2180,3,2148,0,2,-4182,3,4133,0,3,4311,0,2,-6192,3,6251,0};//drive in a square
 
 void operatorControl() {
+	// while(1){
+	// 	debug(2,0);
+	// 	debug(3,0);
+	// }
 	int i = 0;
 	while(i!=sizeof(playBack)/sizeof(int)){
 		int startI = i;
@@ -101,13 +105,13 @@ double movePot(int motorPort, int potPort, int PotValue, bool SetMotor){ //When 
 }
 
 #define THRESHforEndcode 0 //There are 360 ticks in one revolution
-#define THRESHforEndcodeMotor 11 //found 9 through trial and error
+#define THRESHforEndcodeMotor 50 //found 9 through trial and error
 double moveEncode(int motorPort, Encoder encodePort, int EncodeValue, bool SetMotor){ //When "Vex" is facing away from the motor
 	double SpeedOfMotor = 0;
 	if ((EncodeValue-THRESHforEndcode) > encoderGet(encodePort))
-		SpeedOfMotor = (double)(encoderGet(encodePort)-(EncodeValue-THRESHforEndcode))/360*100;//negitive When "Vex" is facing away from the motor
+		SpeedOfMotor = -1*(double)(encoderGet(encodePort)-(EncodeValue-THRESHforEndcode))/360*100;//negitive When "Vex" is facing away from the motor
 	else if (encoderGet(encodePort) > (EncodeValue+THRESHforEndcode))
-		SpeedOfMotor = (double)(encoderGet(encodePort)-(EncodeValue+THRESHforEndcode))/360*100;//positive When "Vex" is facing away from the motor
+		SpeedOfMotor = -1*(double)(encoderGet(encodePort)-(EncodeValue+THRESHforEndcode))/360*100;//positive When "Vex" is facing away from the motor
 	if(-THRESHforEndcodeMotor<=SpeedOfMotor&&SpeedOfMotor<=THRESHforEndcodeMotor)
 		SpeedOfMotor=0;
 	printf("%f",SpeedOfMotor);
