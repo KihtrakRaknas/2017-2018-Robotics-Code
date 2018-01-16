@@ -118,9 +118,9 @@ double moveEncode(int motorPort, Encoder encodePort, int EncodeValue, bool SetMo
 	if(SetMotor){
 		motorSet(motorPort, SpeedOfMotor);
 		if(motorPort == 2) //For one ecoder per side set up
-			motorSet(1, SpeedOfMotor); //For one ecoder per side set up
+			motorSet(1, .777*SpeedOfMotor); //For one ecoder per side set up
 		else if(motorPort == 3) //For one ecoder per side set up
-			motorSet(10, SpeedOfMotor); //For one ecoder per side set up
+			motorSet(10, .777*SpeedOfMotor); //For one ecoder per side set up
 	}
 	//printf("%f",SpeedOfMotor);
 	return SpeedOfMotor;

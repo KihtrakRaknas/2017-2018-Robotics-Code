@@ -10,8 +10,9 @@ implement constants and methods
 
 void driving(); //The function will read the left joystick's coordinates and will set the motor's speeds to match
 void stopDriving();
-void armspeed(int); //Takes in the speed the arm needs to move at and moves both motors at that speed
-void clawcontrol(int speed); //opens and closes the claw at the right speed
+void armspeed(int speed); //Takes in the speed the arm needs to move at and moves both motors at that speed
+void mobileGoalSpeed(int speed);
+void RIcontrol(int speed); //opens and closes the claw at the right speed
 void launch(); //The function will move the arm up and after a delay open the claw, "throwing" what ever was in the claw
 void autooc(); //A shortcut to quickly open and close the claw
 void forward(); //A set of pre configured motor speeds to drive forward
@@ -39,10 +40,14 @@ void operatorControl() {
 
       //Arm controls
       if(joystickGetDigital(1,5,JOY_UP)||joystickGetDigital(2,5,JOY_UP)){
-        armspeed(85);
+        mobileGoalSpeed(127);
       }else if(joystickGetDigital(1,5,JOY_DOWN)||joystickGetDigital(2,5,JOY_DOWN)){
-        armspeed(-42);
-      }else if(-10<joystickGetAnalog(1,2) || joystickGetAnalog(1,2)<10){ //The right joystick's Y coordinate can control the arm
+        mobileGoalSpeed(-127);
+      }else{
+        mobileGoalSpeed(0);
+      }
+
+      if(-10<joystickGetAnalog(1,2) || joystickGetAnalog(1,2)<10){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(1,2));
       }else if(-10<joystickGetAnalog(2,2) || joystickGetAnalog(2,2)<10){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(2,2));
@@ -52,11 +57,11 @@ void operatorControl() {
 
       //Claw controls
       if(joystickGetDigital(1,6,JOY_UP)||joystickGetDigital(2,6,JOY_UP)){
-        clawcontrol(127);
+        RIcontrol(70);
       }else if(joystickGetDigital(1,6,JOY_DOWN)||joystickGetDigital(2,6,JOY_DOWN)){
-        clawcontrol(-127);
+        RIcontrol(-70);
       }else{
-        clawcontrol(0);
+        RIcontrol(0);
       }
 
       //Short cut buttons
@@ -91,11 +96,11 @@ void operatorControl() {
       }
 
       if (joystickGetDigital(1, 7, JOY_RIGHT)||joystickGetDigital(1, 8, JOY_LEFT)) {
-        clawcontrol(127);
+        RIcontrol(127);
       }else if (joystickGetDigital(1, 8, JOY_RIGHT)||joystickGetDigital(1, 7, JOY_LEFT)) {
-        clawcontrol(-127);
+        RIcontrol(-127);
       }else{
-        clawcontrol(0);
+        RIcontrol(0);
       }
 
       if(joystickGetDigital(1,7,JOY_UP)){
@@ -138,32 +143,32 @@ void operatorControl() {
 
 
       if (joystickGetDigital(1, 5, JOY_UP)){
-        motorSet(ARMTL, 127);
+        motorSet(ARML, 127);
       }else if (joystickGetDigital(1, 5, JOY_DOWN)){
-        motorSet(ARMTL, -127);
+        motorSet(ARML, -127);
       }else{
-        motorSet(ARMTL, 0);
+        motorSet(ARML, 0);
       }
       if (joystickGetDigital(1, 6, JOY_UP)){
-        motorSet(ARMTR, -127);
+        motorSet(ARMR, -127);
       }else if (joystickGetDigital(1, 6, JOY_DOWN)){
-        motorSet(ARMTR, 127);
+        motorSet(ARMR, 127);
       }else{
-        motorSet(ARMTR, 0);
+        motorSet(ARMR, 0);
       }
       if (joystickGetAnalog(1, 3)>20){
-        motorSet(ARMBL, 127);
+        motorSet(ARML, 127);
       }else if (joystickGetAnalog(1, 3)<-20){
-        motorSet(ARMBL, -127);
+        motorSet(ARML, -127);
       }else{
-        motorSet(ARMBL, 0);
+        motorSet(ARML, 0);
       }
       if (joystickGetAnalog(1, 2)>20){
-        motorSet(ARMBR, -127);
+        motorSet(ARMR, -127);
       }else if (joystickGetAnalog(1, 2)<-20){
-        motorSet(ARMBR, 127);
+        motorSet(ARMR, 127);
       }else{
-        motorSet(ARMBR, 0);
+        motorSet(ARMR, 0);
       }
 
 
@@ -235,49 +240,56 @@ void driving(){
   motorSet(TR, -1 * (ypos+xpos));
   motorSet(BR, -1 * (ypos+xpos));
 }
-
+/*
 void stopDriving(){
     motorSet(BL, 0);
     motorSet(TL, 0);
     motorSet(TR, 0);
     motorSet(BR, 0);
 }
-
+*/
 
 void armspeed(int speed){//+speed = up
-  motorSet(ARMBL, -1 * speed);
-  motorSet(ARMTL, -1 * speed);
-  motorSet(ARMBR, speed);
-  motorSet(ARMTR, speed);
+  //motorSet(ARMBL, -1 * speed);
+  motorSet(ARML, -1 * speed);
+  //motorSet(ARMACTUALR, speed);
+  motorSet(ARMR, speed);
 }
 
-void clawcontrol(int speed){//+speed=close
+void mobileGoalSpeed(int speed){//+speed = up
+  //motorSet(ARMBL, -1 * speed);
+  motorSet(MGL, -1 * speed);
+  //motorSet(ARMBR, speed);
+  motorSet(MGR, speed);
+}
+
+void RIcontrol(int speed){//+speed=close //RI = rakesh intake
   motorSet(CLAWL,speed);
   motorSet(CLAWR,-1 * speed);
 }
 
 void launch(){
-  armspeed(127);
+  armspeed(70);
   delay(500);
-  clawcontrol(127);
+  RIcontrol(127);
   delay(500);
-  clawcontrol(0);
+  RIcontrol(0);
   armspeed(0);
 }
 
 void autooc(){
   if(OCcounter%2==0){
-    clawcontrol(127);
+    RIcontrol(127);
     delay(2200);
-    clawcontrol(0);
+    RIcontrol(0);
   }else{
-    clawcontrol(-127);
+    RIcontrol(-127);
     delay(2200);
-    clawcontrol(0);
+    RIcontrol(0);
   }
   OCcounter++;
 }
-
+/*
 void forward(){
   motorSet(TL, 127);
   motorSet(BL, 127);
@@ -302,7 +314,7 @@ void left(){
   motorSet(TR, -127);
   motorSet(BR, -127);
 }
-
+*/
 void auton(){
   ///*
   forward();
