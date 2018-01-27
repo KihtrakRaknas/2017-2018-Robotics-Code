@@ -40,9 +40,9 @@ void operatorControl() {
 
       //Arm controls
       if(joystickGetDigital(1,5,JOY_UP)||joystickGetDigital(2,5,JOY_UP)){
-        mobileGoalSpeed(127);
-      }else if(joystickGetDigital(1,5,JOY_DOWN)||joystickGetDigital(2,5,JOY_DOWN)){
         mobileGoalSpeed(-127);
+      }else if(joystickGetDigital(1,5,JOY_DOWN)||joystickGetDigital(2,5,JOY_DOWN)){
+        mobileGoalSpeed(127);
       }else{
         mobileGoalSpeed(0);
       }
@@ -77,7 +77,8 @@ void operatorControl() {
       }
 
       if(joystickGetDigital(1,7,JOY_DOWN)&&joystickGetDigital(1,7,JOY_RIGHT)&&joystickGetDigital(1,7,JOY_LEFT)){
-        drivingMode = 1;
+        //drivingMode = 1;
+        auton();
       }
       while(joystickGetDigital(1,7,JOY_DOWN)&&joystickGetDigital(1,7,JOY_RIGHT)&&joystickGetDigital(1,7,JOY_LEFT)){}
 
@@ -236,8 +237,10 @@ void driving(){
     xpos = xpos * -1;
   }
   motorSet(BL, (ypos-xpos));
+  motorSet(ML, (ypos-xpos));
   motorSet(TL, (ypos-xpos));
   motorSet(TR, -1 * (ypos+xpos));
+  motorSet(MR, -1 * (ypos+xpos));
   motorSet(BR, -1 * (ypos+xpos));
 }
 /*
@@ -258,7 +261,7 @@ void armspeed(int speed){//+speed = up
 
 void mobileGoalSpeed(int speed){//+speed = up
   //motorSet(ARMBL, -1 * speed);
-  motorSet(MGL, -1 * speed);
+  //motorSet(MGL, -1 * speed);
   //motorSet(ARMBR, speed);
   motorSet(MGR, speed);
 }
@@ -279,13 +282,13 @@ void launch(){
 
 void autooc(){
   if(OCcounter%2==0){
-    RIcontrol(127);
-    delay(2200);
-    RIcontrol(0);
+    mobileGoalSpeed(127);
+    delay(600);
+    mobileGoalSpeed(0);
   }else{
-    RIcontrol(-127);
-    delay(2200);
-    RIcontrol(0);
+    mobileGoalSpeed(-127);
+    delay(600);
+    mobileGoalSpeed(0);
   }
   OCcounter++;
 }
@@ -316,8 +319,38 @@ void left(){
 }
 */
 void auton(){
-  ///*
-  forward();
+  motorSet(MGR, 127);
+  delay(800);
+  motorStop(MGR);
+  motorSet(TL, 127);
+  motorSet(ML, 127);
+  motorSet(BL, 127);
+  motorSet(TR, -60);
+  motorSet(BR, -60);
+  delay(2500);
+  motorSet(TL, 127);
+  motorSet(ML, 127);
+  motorSet(BL, 127);
+  motorSet(TR, 127);
+  motorSet(MR, 127);
+  motorSet(BR, 127);
+  delay(800);
+  motorSet(TL, 127);
+  motorSet(ML, 127);
+  motorSet(BL, 127);
+  motorSet(TR, -60);
+  motorSet(BR, -60);
+  delay(2750);
+  motorStopAll();
+  motorSet(MGR, -127);
+  delay(800);
+  motorSet(TL, -127);
+  motorSet(ML, -127);
+  motorSet(BL, -127);
+  motorSet(TR, 60);
+  motorSet(BR, 60);
+  delay(1000);
+  /*
   backward();
   right();
   left();
@@ -339,7 +372,7 @@ void auton(){
   delay(1000);
   right();
   delay(10000);
-  //*/
+  */
 }
 
 void randomness(){
