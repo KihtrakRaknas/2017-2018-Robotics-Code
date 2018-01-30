@@ -4,8 +4,13 @@ int OCcounter = 0;
 #define thresh 10
 FILE *fptr;
 int i = 0;
+int oldValues[10];
+
 void rec(int tim , int motor, int speed){
-	fprintf(fptr, ",%d,%d,%d ", tim,motor, speed);
+	if(oldValues[motor]!=speed){
+		fprintf(fptr, ",%d,%d,%d ", tim,motor, speed);
+		oldValues[motor]=speed;
+	}
 }
 
 void mobileGoalSpeed(int speed){//+speed = up
