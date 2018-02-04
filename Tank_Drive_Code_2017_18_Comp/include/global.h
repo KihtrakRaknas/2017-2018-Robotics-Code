@@ -15,7 +15,7 @@
 
 #define ARMR 0//
 #define MGR 8
-#define ARML 8//
+#define ARML 0//
 #define MGL 0//
 
 #endif

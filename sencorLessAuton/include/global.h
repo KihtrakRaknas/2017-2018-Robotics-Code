@@ -10,12 +10,12 @@
 #define ML 6
 #define TL 7
 
-#define CLAWL 0//
-#define CLAWR 0//
+//#define CLAWL 0//
+//#define CLAWR 0//
 
-#define ARMR 0//
+//#define ARMR 0//
 #define MGR 8
-#define ARML 8//
-#define MGL 0//
+//#define ARML 8//
+//#define MGL 0//
 
 #endif
