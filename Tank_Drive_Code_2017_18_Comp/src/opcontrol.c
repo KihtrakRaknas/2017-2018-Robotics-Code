@@ -47,9 +47,9 @@ void operatorControl() {
         mobileGoalSpeed(0);
       }
 
-      if(-10<joystickGetAnalog(1,2) || joystickGetAnalog(1,2)<10){ //The right joystick's Y coordinate can control the arm
+      if(joystickGetAnalog(1,2)<-10 || 10<joystickGetAnalog(1,2)){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(1,2));
-      }else if(-10<joystickGetAnalog(2,2) || joystickGetAnalog(2,2)<10){ //The right joystick's Y coordinate can control the arm
+      }else if(joystickGetAnalog(2,2)<-10 || 10<joystickGetAnalog(2,2)){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(2,2));
       }else{
         armspeed(0);
@@ -57,9 +57,9 @@ void operatorControl() {
 
       //Claw controls
       if(joystickGetDigital(1,6,JOY_UP)||joystickGetDigital(2,6,JOY_UP)){
-        RIcontrol(70);
+        RIcontrol(40);
       }else if(joystickGetDigital(1,6,JOY_DOWN)||joystickGetDigital(2,6,JOY_DOWN)){
-        RIcontrol(-70);
+        RIcontrol(-40);
       }else{
         RIcontrol(0);
       }
@@ -205,9 +205,10 @@ void operatorControl() {
 void driving(){
   //Get the X and Y coordinates from the controller
   if(drivingMode == 0){
-    xpos = joystickGetAnalog(1, 1);
+    xpos = joystickGetAnalog(1, 4);
     ypos = joystickGetAnalog(1, 3);
-
+    if(joystickGetAnalog(1, 1) < -thresh || thresh < joystickGetAnalog(1, 1))
+      xpos = joystickGetAnalog(1, 1);
     //powers motors at correct speeds
     if(!(ypos < -thresh || thresh < ypos || xpos < -thresh || thresh < xpos)){
       ypos=0;
@@ -233,9 +234,9 @@ void driving(){
       ypos = 0;
     }
   }
-  if(ypos >= -thresh){
+  /*if(ypos >= -thresh){*/
     xpos = xpos * -1;
-  }
+  /*}*/
   motorSet(BL, (ypos-xpos));
   motorSet(ML, (ypos-xpos));
   motorSet(TL, (ypos-xpos));
@@ -282,13 +283,13 @@ void launch(){
 
 void autooc(){
   if(OCcounter%2==0){
-    mobileGoalSpeed(127);
-    delay(600);
-    mobileGoalSpeed(0);
+    armspeed(127);
+    delay(1500);
+    armspeed(0);
   }else{
-    mobileGoalSpeed(-127);
-    delay(600);
-    mobileGoalSpeed(0);
+    armspeed(-127);
+    delay(1500);
+    armspeed(0);
   }
   OCcounter++;
 }

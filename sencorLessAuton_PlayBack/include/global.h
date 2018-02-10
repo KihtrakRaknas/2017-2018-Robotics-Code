@@ -3,19 +3,19 @@
 
 //All postitions are measured from looking at the back of the robot
 
-#define TR 2
-#define MR 3
-#define BR 4
-#define BL 5
-#define ML 6
-#define TL 7
+#define TR 7
+#define MR 6
+#define BR 5
+#define BL 4
+#define ML 3
+#define TL 2
 
-#define CLAWL 0//
-#define CLAWR -1//
+#define CLAWL 1//
+#define CLAWR 10
 
-#define ARMR -2//
+#define ARMR 9
 #define MGR 8
-#define ARML -3//
-#define MGL -4//
+#define ARML -2//
+#define MGL -1//
 
 #endif

@@ -57,19 +57,19 @@ void driving(){
 	rec(i,TR,-1 * (ypos+xpos));
 }
 
-/*void armspeed(int speed){//+speed = up
+void armspeed(int speed){//+speed = up
   //motorSet(ARMBL, -1 * speed);
-  motorSet(ARML, -1 * speed);
+  //motorSet(ARML, -1 * speed);
   //motorSet(ARMACTUALR, speed);
   motorSet(ARMR, speed);
 	rec(i,ARMR,speed);
-}*/
+}
 
-/*void RIcontrol(int speed){//+speed=close //RI = rakesh intake
+void RIcontrol(int speed){//+speed=close //RI = rakesh intake
   motorSet(CLAWL,speed);
   motorSet(CLAWR,-1 * speed);
 	rec(i,CLAWL,speed);
-}*/
+}
 void operatorControl() {
 	fptr = fopen("auton.txt", "r");
 	if (!(fptr == NULL)){
@@ -100,7 +100,7 @@ void operatorControl() {
         mobileGoalSpeed(0);
       }
 
-      /*if(-10<joystickGetAnalog(1,2) || joystickGetAnalog(1,2)<10){ //The right joystick's Y coordinate can control the arm
+      if(-10<joystickGetAnalog(1,2) || joystickGetAnalog(1,2)<10){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(1,2));
       }else if(-10<joystickGetAnalog(2,2) || joystickGetAnalog(2,2)<10){ //The right joystick's Y coordinate can control the arm
         armspeed(joystickGetAnalog(2,2));
@@ -115,7 +115,7 @@ void operatorControl() {
         RIcontrol(-70);
       }else{
         RIcontrol(0);
-      }*/
+      }
 
       if(joystickGetDigital(1,8,JOY_LEFT)||joystickGetDigital(1,8,JOY_RIGHT)||joystickGetDigital(2,8,JOY_LEFT)||joystickGetDigital(2,8,JOY_RIGHT)){
         autooc(); //Auto open and close claw
